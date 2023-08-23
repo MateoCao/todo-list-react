@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react'
+import { API } from '../util/api'
 
 const TodoContext = createContext()
 
@@ -10,12 +11,8 @@ export const TodoProvider = ({ children }) => {
   const [todoList, setTodoList] = useState([])
   const [completedTasks, setCompletedTasks] = useState([])
 
-  const moveTaskToCompleted = (task) => {
-    setTodoList(todoList.filter(item => item.id !== task.id))
-    task.id = completedTasks.length > 0 ? completedTasks[completedTasks.length - 1].id + 1 : 1
-    task.completed = true
-    const newCompletedTasks = [...completedTasks, task]
-    setCompletedTasks(newCompletedTasks)
+  const moveTaskToCompleted = async (task) => {
+    API.updateCompletedTasks(todoList, setTodoList, completedTasks, setCompletedTasks, task)
   }
 
   return (

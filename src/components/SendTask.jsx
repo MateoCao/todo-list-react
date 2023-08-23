@@ -1,15 +1,18 @@
 import { useTodoContext } from '../context/TodoListContext'
+import { API } from '../util/api'
 
 const SendTask = () => {
   const { todoList, setTodoList } = useTodoContext()
 
-  const sendItem = (e) => {
+  const sendItem = async (e) => {
     e.preventDefault()
-    const entry = Object.fromEntries(new window.FormData(e.target))
-    entry.id = todoList.length > 0 ? todoList[todoList.length - 1].id + 1 : 1
-    entry.completed = false
-    const newTodoList = [...todoList, entry]
-    setTodoList(newTodoList)
+    const formData = new FormData(e.target)
+    const entry = {
+      title: formData.get('title'),
+      description: formData.get('description'),
+      completed: false
+    }
+    API.sendTask(entry, todoList, setTodoList, e)
   }
 
   return (
