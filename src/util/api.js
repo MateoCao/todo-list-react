@@ -16,6 +16,7 @@ export const API = {
     }
   },
 
+  // POST
   async sendTask (entry, todoList, setTodoList, e) {
     try {
       const response = await fetch(this.url, {
@@ -41,6 +42,7 @@ export const API = {
     }
   },
 
+  // PATCH
   async updateCompletedTasks (todoList, setTodoList, completedTasks, setCompletedTasks, task) {
     try {
       setTodoList(todoList.filter(item => item._id !== task._id))
