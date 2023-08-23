@@ -1,1 +1,1 @@
-Simple todoList con react
+Simple todoList con React, Nodejs, MongoDB
