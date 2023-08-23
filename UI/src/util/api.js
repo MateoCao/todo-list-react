@@ -2,12 +2,12 @@ export const API = {
   url: 'http://localhost:1235/tasks',
 
   // GET
-  async getTasks (setTodoList) {
+  async getTasks () {
     try {
       const response = await fetch(this.url)
       if (response.ok) {
         const tasks = await response.json()
-        setTodoList(tasks.filter(task => !task.completed))
+        return tasks
       } else {
         console.error('Error al cargar las tareas.')
       }
@@ -29,7 +29,6 @@ export const API = {
 
       if (response.ok) {
         const res = await response.json()
-        console.log(res._id)
         entry._id = res._id
         const newTodoList = [...todoList, entry]
         setTodoList(newTodoList)
@@ -61,7 +60,25 @@ export const API = {
         console.error('Error al completar la tarea')
       }
     } catch (error) {
-      console.error('Error al completar la tarea:', error)
+      console.error('Error al completar la tarea: ', error)
+    }
+  },
+
+  async deleteTask (task, setCompletedTasks, completedTasks) {
+    try {
+      const response = await fetch(`${this.url}/${task._id}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        const index = completedTasks.findIndex(t => t._id === task._id)
+        if (index !== -1) {
+          const newCompletedTasks = completedTasks.filter(t => t._id !== task._id)
+          setCompletedTasks(newCompletedTasks)
+        }
+      }
+    } catch (error) {
+      console.error('Error al eliminar la tarea: ', error)
     }
   }
 

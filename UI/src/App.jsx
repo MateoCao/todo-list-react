@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './pages/home'
+import Home from './pages/Home.jsx'
 import TaskRecord from './pages/TaskRecord.jsx'
+import Navbar from './components/NavBar.jsx'
 
 function App () {
   return (
     <>
       <Router>
+        <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/historial' element={<TaskRecord />} />

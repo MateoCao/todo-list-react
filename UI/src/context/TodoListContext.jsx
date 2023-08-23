@@ -16,7 +16,7 @@ export const TodoProvider = ({ children }) => {
   }
 
   return (
-    <TodoContext.Provider value={{ todoList, completedTasks, moveTaskToCompleted, setTodoList }}>
+    <TodoContext.Provider value={{ todoList, completedTasks, moveTaskToCompleted, setTodoList, setCompletedTasks }}>
       {children}
     </TodoContext.Provider>
   )

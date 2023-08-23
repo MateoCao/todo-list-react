@@ -18,8 +18,9 @@ const SendTask = () => {
   return (
     <div className='ml-3'>
       <form onSubmit={sendItem} className='flex flex-col w-1/5 gap-2'>
-        <input className='outline-none p-2 rounded' name='title' placeholder='Titulo' />
-        <textarea className='resize-none outline-none p-2 rounded' name='description' placeholder='Task' />
+        <input className='outline-none p-2 rounded' name='title' placeholder='Titulo / mínimo 5 caracteres' />
+
+        <textarea className='resize-none outline-none p-2 rounded' name='description' placeholder='Descripción / mínimo 10 caracteres' />
         <button className='bg-gray-600 text-white rounded w-1/3' type='submit'>Crear tarea</button>
       </form>
     </div>
