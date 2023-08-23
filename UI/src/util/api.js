@@ -1,5 +1,5 @@
 export const API = {
-  url: 'http://localhost:1235/tasks',
+  url: 'https://todo-list-le4v-dev.fl0.io/tasks',
 
   // GET
   async getTasks () {
