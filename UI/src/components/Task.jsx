@@ -1,16 +1,7 @@
 import { useTodoContext } from '../context/TodoListContext.jsx'
-import { API } from '../util/api.js'
 
 const Task = ({ item }) => {
-  const { moveTaskToCompleted, setCompletedTasks, completedTasks } = useTodoContext()
-
-  const completeTask = () => {
-    moveTaskToCompleted(item)
-  }
-
-  const deleteTask = () => {
-    API.deleteTask(item, setCompletedTasks, completedTasks)
-  }
+  const { moveTaskToCompleted, deleteTask } = useTodoContext()
 
   return (
     <li data-id={item.id} className='flex gap-3 justify-between bg-gray-300 w-4/5 rounded'>
@@ -21,12 +12,12 @@ const Task = ({ item }) => {
       </div>
       {!item.completed
         ? <div className='flex items-center p-2'>
-          <button onClick={completeTask} className='bg-green-700 text-white p-2 rounded'>Check</button>
-          </div>
+          <button onClick={() => moveTaskToCompleted(item)} className='bg-green-700 text-white p-2 rounded'>Check</button>
+        </div>
 
         : <div className='flex items-center p-2'>
-          <button onClick={deleteTask} className='bg-red-700 text-white p-2 rounded'>Eliminar</button>
-          </div>}
+          <button onClick={() => deleteTask(item)} className='bg-red-700 text-white p-2 rounded'>Eliminar</button>
+        </div>}
     </li>
   )
 }

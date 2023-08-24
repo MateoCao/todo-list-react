@@ -1,18 +1,16 @@
-import { useTodoContext } from '../context/TodoListContext'
-import { API } from '../util/api'
+import { useTodoContext } from '../context/TodoListContext.jsx'
 
 const SendTask = () => {
-  const { todoList, setTodoList } = useTodoContext()
-
+  const { sendTask } = useTodoContext()
   const sendItem = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.target)
-    const entry = {
+    const task = {
       title: formData.get('title'),
       description: formData.get('description'),
       completed: false
     }
-    API.sendTask(entry, todoList, setTodoList, e)
+    sendTask(task, e)
   }
 
   return (
