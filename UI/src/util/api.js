@@ -35,11 +35,12 @@ export const API = {
   // PATCH
   async updateCompletedTasks (task) {
     try {
-      task.completed = true
       const response = await fetch(`${this.url}/${task._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(task)
+        body: JSON.stringify({
+          completed: true
+        })
       })
       return response
     } catch (error) {
