@@ -10,6 +10,7 @@ export const useTodoContext = () => {
 export const TodoProvider = ({ children }) => {
   const [todoList, setTodoList] = useState([])
   const [completedTasks, setCompletedTasks] = useState([])
+  const [expiredTasks, setExpiredTasks] = useState()
 
   const getTasks = async (bool) => {
     try {
@@ -46,16 +47,36 @@ export const TodoProvider = ({ children }) => {
   const deleteTask = async (task) => {
     const response = await API.deleteTask(task)
     if (response.ok) {
-      const index = completedTasks.findIndex(t => t._id === task._id)
-      if (index !== -1) {
-        const newCompletedTasks = completedTasks.filter(t => t._id !== task._id)
-        setCompletedTasks(newCompletedTasks)
+      if (task.expired) {
+        const index = expiredTasks.findIndex(t => t._id === task._id)
+        if (index !== -1) {
+          const newExpiredTasks = expiredTasks.filter(t => t._id !== task._id)
+          setExpiredTasks(newExpiredTasks)
+        }
+      } else {
+        const index = completedTasks.findIndex(t => t._id === task._id)
+        if (index !== -1) {
+          const newCompletedTasks = completedTasks.filter(t => t._id !== task._id)
+          setCompletedTasks(newCompletedTasks)
+        }
       }
     }
   }
 
   return (
-    <TodoContext.Provider value={{ todoList, completedTasks, moveTaskToCompleted, setTodoList, getTasks, sendTask, setCompletedTasks, deleteTask }}>
+    <TodoContext.Provider value={{
+      todoList,
+      completedTasks,
+      expiredTasks,
+      moveTaskToCompleted,
+      setTodoList,
+      getTasks,
+      sendTask,
+      setCompletedTasks,
+      deleteTask,
+      setExpiredTasks
+    }}
+    >
       {children}
     </TodoContext.Provider>
   )

@@ -1,10 +1,9 @@
 import { useTodoContext } from '../context/TodoListContext'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Task from '../components/Task'
 
 const TaskRecord = () => {
-  const { completedTasks, setCompletedTasks, getTasks } = useTodoContext()
-  const [expiredTasks, setExpiredTasks] = useState()
+  const { completedTasks, setCompletedTasks, getTasks, expiredTasks, setExpiredTasks } = useTodoContext()
 
   useEffect(() => {
     const fetchTasks = async () => {
