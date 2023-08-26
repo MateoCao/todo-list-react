@@ -1,5 +1,5 @@
 export const API = {
-  url: 'https://todo-list-le4v-dev.fl0.io/tasks',
+  url: 'http://localhost:1235/tasks',
 
   // GET
   async getTasks () {
@@ -45,6 +45,20 @@ export const API = {
       return response
     } catch (error) {
       console.error('Error al completar la tarea: ', error)
+    }
+  },
+
+  async updateExpiredTasks (task) {
+    try {
+      await fetch(`${this.url}/${task._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          expired: true
+        })
+      })
+    } catch (error) {
+      console.error('Error al expirar la tarea', error)
     }
   },
 
