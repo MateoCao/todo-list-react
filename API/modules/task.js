@@ -1,4 +1,4 @@
-import { Task } from '../taskSchema.js'
+import { Task } from '../models/taskSchema.js'
 
 export class TaskModel {
   static async getAll () {
