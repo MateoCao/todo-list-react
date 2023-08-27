@@ -5,14 +5,14 @@ import { API } from '../util/api.js'
 import CountdownTimer from './Timer.jsx'
 
 const Task = ({ item }) => {
-  const { moveTaskToCompleted, deleteTask } = useTodoContext()
+  const { moveTaskToCompleted, deleteTask, todoList } = useTodoContext()
   const { totalSeconds, setSelectedDate, handleStartCountdown, selectedDate, setTotalSeconds } = useTimer()
   const [isExpired, setIsExpired] = useState(false)
 
   useEffect(() => {
     setSelectedDate(item.date)
     handleStartCountdown()
-  }, [selectedDate])
+  }, [selectedDate, todoList])
 
   useEffect(() => {
     if (totalSeconds === 0 || item.expired) {
@@ -32,7 +32,7 @@ const Task = ({ item }) => {
         {item.completed
           ? <div>{item.date}</div>
           : (totalSeconds > 0 && !isExpired
-              ? <CountdownTimer totalSeconds={totalSeconds} />
+              ? <CountdownTimer task={item} totalSeconds={totalSeconds} />
               : <div>TAREA VENCIDA</div>)}
 
       </div>
@@ -40,11 +40,11 @@ const Task = ({ item }) => {
       {!item.completed
         ? <div className='flex items-center p-2'>
           <button onClick={() => moveTaskToCompleted(item)} className={`${!isExpired ? 'bg-green-700' : 'bg-red-700'} text-white p-2 rounded`}>{!isExpired ? 'Check' : 'Mover a historial'}</button>
-          </div>
+        </div>
 
         : <div className='flex items-center p-2'>
           <button onClick={() => deleteTask(item)} className='bg-red-700 text-white p-2 rounded'>Eliminar</button>
-          </div>}
+        </div>}
     </li>
   )
 }

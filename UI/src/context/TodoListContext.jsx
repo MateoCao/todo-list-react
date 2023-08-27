@@ -38,7 +38,8 @@ export const TodoProvider = ({ children }) => {
   const moveTaskToCompleted = async (task) => {
     const response = await API.updateCompletedTasks(task)
     if (response.ok) {
-      setTodoList(todoList.filter(item => item._id !== task._id))
+      const newTodoList = todoList.filter(item => item._id !== task._id)
+      setTodoList(newTodoList)
     } else {
       console.error('Error al completar la tarea')
     }
