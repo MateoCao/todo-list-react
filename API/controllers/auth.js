@@ -6,7 +6,16 @@ export class AuthController {
   static async register (req, res) {
     const result = req.body
     try {
-      console.log('<<<<<<<<<<<<<<<<<<<<', result.data)
+      const userFoundByEmail = await AuthModel.findUserByEmail(result.email)
+      if (userFoundByEmail) {
+        return res.status(404).json(['El email ya se encuentra registrado'])
+      }
+
+      const userFoundByUsername = await AuthModel.findUserByUsername(result.username)
+      if (userFoundByUsername) {
+        return res.status(404).json(['El nombre de usuario ya se encuentra registrado'])
+      }
+
       const passwordEncrypted = await bycript.hash(result.password, 10)
 
       if (result.error) {
@@ -38,10 +47,10 @@ export class AuthController {
       }
 
       const userFound = await AuthModel.login({ email: result.email, username: result.username })
-      if (!userFound) return res.status(404).json({ error: 'Usuario no encontrado' })
+      if (!userFound) return res.status(404).json(['Usuario no encontrado'])
 
       const isMatched = await bycript.compare(result.password, userFound.password)
-      if (!isMatched) return res.status(400).json({ message: 'Contraseña incorrecta' })
+      if (!isMatched) return res.status(400).json(['Contraseña incorrecta'])
 
       const token = await createAccessToken({ id: userFound._id })
 

@@ -1,6 +1,14 @@
 import { User } from '../models/userSchema.js'
 
 export class AuthModel {
+  static async findUserByEmail (email) {
+    return User.findOne({ email })
+  }
+
+  static async findUserByUsername (username) {
+    return User.findOne({ username })
+  }
+
   static async register ({ user, passwordHash }) {
     try {
       const newUser = new User({
