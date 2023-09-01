@@ -1,6 +1,7 @@
 import { AuthModel } from '../modules/auth.js'
 import bycript from 'bcryptjs'
 import { createAccessToken } from '../libs/jwt.js'
+import jwt from 'jsonwebtoken'
 
 export class AuthController {
   static async register (req, res) {
@@ -80,7 +81,6 @@ export class AuthController {
       const userFound = await AuthModel.profile({ _id: req.user.id })
 
       if (!userFound) return res.status(400).json({ message: 'User not found' })
-
       return res.json({
         id: userFound._id,
         username: userFound.username,
@@ -92,5 +92,26 @@ export class AuthController {
       console.error('Error in register:', error)
       res.status(500).json({ error: 'Internal Server Error' })
     }
+  }
+
+  static async verifyToken (req, res) {
+    const { token } = req.cookies
+    console.log(token)
+    if (!token) return res.status(401).json(['No autorizado'])
+
+    jwt.verify(token, process.env.SECRET_TOKEN, async (err, user) => {
+      if (err) return res.status(401).json(['No autorizado'])
+      const id = user.id ? user.id : user.payload
+      console.log(user.payload)
+      const userFound = await AuthModel.verifyToken({ _id: id })
+      console.log(userFound)
+      if (!userFound) return res.status(401).json(['No autorizado'])
+
+      return res.json({
+        id: userFound._id,
+        username: userFound.username,
+        email: userFound.email
+      })
+    })
   }
 }

@@ -42,4 +42,13 @@ export class AuthModel {
       throw new Error('Internal Server Error')
     }
   }
+
+  static async verifyToken ({ _id }) {
+    try {
+      return await User.findOne({ _id })
+    } catch (error) {
+      console.error('Error in AuthModel.verifyToken:', error)
+      throw new Error('Internal Server Error')
+    }
+  }
 }

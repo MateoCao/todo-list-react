@@ -4,7 +4,8 @@ import { validateTask, validatePartialTask } from '../validations/taskValidation
 export class TaskController {
   static async getAll (req, res) {
     try {
-      const tasks = await TaskModel.getAll({ userId: req.user.id })
+      const id = req.user.id ? req.user.id : req.user.payload
+      const tasks = await TaskModel.getAll({ userId: id })
       res.json(tasks)
     } catch (error) {
       console.error('Error in getAll:', error)
@@ -30,13 +31,14 @@ export class TaskController {
   static async create (req, res) {
     try {
       const result = validateTask(req.body)
-      const userId = req.user.id
+      const id = req.user.id ? req.user.id : req.user.payload
 
       if (result.error) {
         return res.status(400).json({ error: JSON.parse(result.error.message) })
       }
 
-      const newTask = await TaskModel.create({ task: result.data, user: userId })
+      const newTask = await TaskModel.create({ task: result.data, user: id })
+      console.log(newTask)
 
       res.status(201).json(newTask)
     } catch (error) {
