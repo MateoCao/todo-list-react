@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTodoContext } from '../context/TodoListContext.jsx'
 import { useTimer } from '../hooks/useTimer.jsx'
-import { API } from '../util/api.js'
+import { API } from '../util/apiTasks.js'
 import CountdownTimer from './Timer.jsx'
 
 const Task = ({ item }) => {
@@ -40,11 +40,11 @@ const Task = ({ item }) => {
       {!item.completed
         ? <div className='flex items-center p-2'>
           <button onClick={() => moveTaskToCompleted(item)} className={`${!isExpired ? 'bg-green-700' : 'bg-red-700'} text-white p-2 rounded`}>{!isExpired ? 'Check' : 'Mover a historial'}</button>
-        </div>
+          </div>
 
         : <div className='flex items-center p-2'>
           <button onClick={() => deleteTask(item)} className='bg-red-700 text-white p-2 rounded'>Eliminar</button>
-        </div>}
+          </div>}
     </li>
   )
 }

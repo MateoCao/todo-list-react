@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react'
-import { API } from '../util/api'
+import { API } from '../util/apiTasks'
+import Cookies from 'js-cookie'
 
 const TodoContext = createContext()
 
@@ -12,9 +13,12 @@ export const TodoProvider = ({ children }) => {
   const [completedTasks, setCompletedTasks] = useState([])
   const [expiredTasks, setExpiredTasks] = useState()
 
+  // Obtener tareas
+
   const getTasks = async (bool) => {
+    const cookies = Cookies.get()
     try {
-      const tasks = await API.getTasks()
+      const tasks = await API.getTasks(cookies.token)
       const filteredTasks = tasks.filter(task => task.completed === bool)
       return filteredTasks
     } catch (error) {
@@ -22,10 +26,13 @@ export const TodoProvider = ({ children }) => {
     }
   }
 
+  // Crear una tarea
+
   const sendTask = async (task, e) => {
     const response = await API.sendTask(task)
     if (response.ok) {
       const data = await response.json()
+      console.log(data)
       task._id = data._id
       const newTodoList = [...todoList, task]
       setTodoList(newTodoList)
@@ -34,6 +41,8 @@ export const TodoProvider = ({ children }) => {
       console.error('Error al crear la tarea')
     }
   }
+
+  // Completar una tarea
 
   const moveTaskToCompleted = async (task) => {
     const response = await API.updateCompletedTasks(task)
@@ -45,9 +54,12 @@ export const TodoProvider = ({ children }) => {
     }
   }
 
+  // Eliminar una tarea
+
   const deleteTask = async (task) => {
     const response = await API.deleteTask(task)
     if (response.ok) {
+      // Validación para actualizar el array de tareas correcto.
       if (task.expired) {
         const index = expiredTasks.findIndex(t => t._id === task._id)
         if (index !== -1) {

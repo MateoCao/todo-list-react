@@ -1,11 +1,18 @@
 export const API = {
-  // url: 'http://localhost:1235/tasks',
-  url: 'https://todo-list-le4v-dev.fl0.io/tasks',
+  url: 'http://localhost:1235/tasks',
+  // url: 'https://todo-list-le4v-dev.fl0.io/tasks',
 
   // GET
-  async getTasks () {
+  async getTasks (token) {
     try {
-      const response = await fetch(this.url)
+      const response = await fetch(this.url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `token=${token}`
+        },
+        credentials: 'include'
+      })
       if (response.ok) {
         const tasks = await response.json()
         return tasks
@@ -25,6 +32,7 @@ export const API = {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(task)
       })
       return response
@@ -39,6 +47,7 @@ export const API = {
       const response = await fetch(`${this.url}/${task._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           completed: true
         })
@@ -49,11 +58,14 @@ export const API = {
     }
   },
 
+  // PATCH
+
   async updateExpiredTasks (task) {
     try {
       await fetch(`${this.url}/${task._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           expired: true
         })
@@ -63,10 +75,13 @@ export const API = {
     }
   },
 
+  // DELETE
+
   async deleteTask (task) {
     try {
       const response = await fetch(`${this.url}/${task._id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
       return response
     } catch (error) {

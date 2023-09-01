@@ -2,7 +2,7 @@ import { useTodoContext } from '../context/TodoListContext'
 import { useEffect } from 'react'
 import Task from '../components/Task'
 
-const TaskRecord = () => {
+const TaskRecordPage = () => {
   const { completedTasks, setCompletedTasks, getTasks, expiredTasks, setExpiredTasks } = useTodoContext()
 
   useEffect(() => {
@@ -32,4 +32,4 @@ const TaskRecord = () => {
   )
 }
 
-export default TaskRecord
+export default TaskRecordPage

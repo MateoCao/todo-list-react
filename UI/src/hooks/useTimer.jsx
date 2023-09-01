@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react'
 
 export function useTimer () {
+  // Contiene la fecha seleccionada
   const [selectedDate, setSelectedDate] = useState('')
+  // Si el contador llega a 0, es false
   const [countdownStarted, setCountdownStarted] = useState(true)
+  // La cantidad de segundos que faltan para que termine el contador
   const [totalSeconds, setTotalSeconds] = useState(1)
+
+  // Comienza el timer
 
   const handleStartCountdown = () => {
     const now = new Date()
