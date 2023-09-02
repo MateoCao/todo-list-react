@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await API.registerRequest(user)
       const data = await res.json()
+      console.log(data)
       if (res.ok) {
         setUser(data)
         setIsAuthenticated(true)
@@ -40,7 +41,11 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (user) => {
     try {
       const res = await API.loginRequest(user)
+      const cookies = Cookies.get()
+      Cookies.set('token', cookies.token)
+      console.log(cookies)
       const data = await res.json()
+      console.log(data)
       if (res.ok) {
         setUser(data)
         setIsAuthenticated(true)
@@ -70,7 +75,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkLogin = async () => {
       const cookies = Cookies.get()
-      console.log(cookies)
 
       if (!cookies.token) {
         setIsAuthenticated(false)
