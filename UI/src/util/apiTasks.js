@@ -1,6 +1,7 @@
 export const API = {
   // url: 'http://localhost:1235/tasks',
-  url: 'https://todo-list-le4v-dev.fl0.io/tasks',
+  // url: 'https://todo-list-le4v-dev.fl0.io/tasks',
+  url: 'https://carmine-crayfish-fez.cyclic.cloud/tasks',
 
   // GET
   async getTasks (token) {

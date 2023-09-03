@@ -41,10 +41,18 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (user) => {
     try {
       const res = await API.loginRequest(user)
+      const data = await res.json()
+
       const cookies = Cookies.get()
+      console.log(cookies.token)
       Cookies.set('token', cookies.token)
       console.log(cookies)
-      const data = await res.json()
+
+      setTimeout(() => {
+        const cookies = Cookies.get('token')
+        console.log(cookies.token)
+      }, 1000)
+
       console.log(data)
       if (res.ok) {
         setUser(data)
