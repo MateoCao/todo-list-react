@@ -43,15 +43,15 @@ export const AuthProvider = ({ children }) => {
       const res = await API.loginRequest(user)
       const data = await res.json()
 
-      const cookies = Cookies.get()
-      console.log(cookies.token)
-      Cookies.set('token', cookies.token)
-      console.log(cookies)
+      // const cookies = Cookies.get()
+      // console.log(cookies.token)
+      // Cookies.set('token', cookies.token)
+      // console.log(cookies)
 
-      setTimeout(() => {
-        const cookies = Cookies.get('token')
-        console.log(cookies.token)
-      }, 1000)
+      // setTimeout(() => {
+      //   const cookies = Cookies.get('token')
+      //   console.log(cookies.token)
+      // }, 1000)
 
       console.log(data)
       if (res.ok) {
@@ -82,16 +82,19 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkLogin = async () => {
-      const cookies = Cookies.get()
+      const token = Cookies.get('token', { domain: 'main--effortless-custard-7e0ce8.netlify.app' })
+      console.log('token con get:', token)
 
-      if (!cookies.token) {
+      if (!token) {
         setIsAuthenticated(false)
         setLoading(false)
         return setUser(null)
       }
+
       try {
-        const res = await API.verifyTokenRequest(cookies.token)
+        const res = await API.verifyTokenRequest('xd')
         const data = await res.json()
+        console.log(token)
 
         if (!res.ok) {
           setIsAuthenticated(false)
@@ -102,6 +105,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true)
         setUser(data)
         setLoading(false)
+        console.log(token)
       } catch (error) {
         setIsAuthenticated(false)
         setUser(null)

@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 export const API = {
   // url: 'http://localhost:1235/user',
   // url: 'https://todo-list-le4v-dev.fl0.io/user',
@@ -33,6 +35,8 @@ export const API = {
         credentials: 'include',
         body: JSON.stringify(user)
       })
+      const cookies = Cookies.get()
+      console.log('API', cookies)
       return response
     } catch (error) {
       console.error('Error al logear el usuario', error)
@@ -44,8 +48,7 @@ export const API = {
       const response = await fetch(`${this.url}/verify-token`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-          Cookie: `token=${token}`
+          'Content-Type': 'application/json'
         },
         credentials: 'include'
       })
